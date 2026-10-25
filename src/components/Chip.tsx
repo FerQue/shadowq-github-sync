@@ -9,7 +9,7 @@ const TONES = {
 
 export type Tone = keyof typeof TONES;
 
-export function Chip({ tone = "grey", children }: { tone?: Tone; children: ReactNode }) {
+export function Chip({ tone = "grey", children }: { tone?: Tone | undefined; children: ReactNode }) {
   return <span className={`inline-block whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ${TONES[tone]}`}>{children}</span>;
 }
 
