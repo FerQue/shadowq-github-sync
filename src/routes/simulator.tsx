@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { evaluateUsageFn } from "@/lib/policy/evaluate.functions";
+import { fileRequestFn } from "@/lib/policy/request.functions";
 import { CLASS_NAMES, detectRestricted, type DataClass, type Decision } from "@/lib/policy/policy";
 
 export const Route = createFileRoute("/simulator")({
@@ -137,7 +138,49 @@ function Simulator({ employeeName }: { employeeName: string }) {
         ) : !error ? (
           <p className="text-sm text-muted-foreground">The decision will appear here.</p>
         ) : null}
+        {decision && canRequest(decision) ? <RequestForm serviceId={serviceId} requestedClass={decision.effectiveClass as 1 | 2 | 3} /> : null}
       </section>
     </div>
+  );
+}
+
+// Offered when the tool isn't cleared for this data: R5 (over the ceiling) and R7 (not reviewed yet).
+function canRequest(d: Decision) {
+  return (d.rule === "R5" || d.rule === "R7") && d.effectiveClass !== null && d.effectiveClass <= 3;
+}
+
+function RequestForm({ serviceId, requestedClass }: { serviceId: string; requestedClass: 1 | 2 | 3 }) {
+  const file = useServerFn(fileRequestFn);
+  const [reason, setReason] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setErr(null);
+    try {
+      const r = await file({ data: { serviceId, requestedClass, reason } });
+      setDone(`Request ${r.id} filed for ${r.serviceName}. It goes to the ${r.route} approval route. Track it on the Approvals page.`);
+      setReason("");
+    } catch (e2) {
+      setErr(e2 instanceof Error ? e2.message : "Could not file the request.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <form onSubmit={submit} className="mt-4 space-y-2 rounded-lg border border-border bg-card p-4">
+      <h2 className="text-sm font-semibold">Need this tool for {CLASS_NAMES[requestedClass]} data? Ask for approval.</h2>
+      <textarea value={reason} onChange={(e) => setReason(e.target.value)} required minLength={5} maxLength={500} rows={2}
+        placeholder="Why do you need it?" className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" />
+      <button disabled={busy} className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-60">
+        {busy ? "Sending…" : "Request access"}
+      </button>
+      {done ? <p className="text-sm text-green-800">{done}</p> : null}
+      {err ? <p role="alert" className="text-sm text-destructive">{err}</p> : null}
+    </form>
   );
 }
