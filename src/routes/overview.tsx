@@ -15,11 +15,16 @@ type Dec = { service_id: string | null; effective_class: number | null; action: 
 type Usage = { service_id: string; sources: string[] };
 type Req = { status: string; submitted_at: string; decided_at: string | null; route: string };
 
-const median = (xs: number[]) => {
+const median = (xs: number[]): number | null => {
   if (xs.length === 0) return null;
   const s = [...xs].sort((a, b) => a - b);
   const m = Math.floor(s.length / 2);
-  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+  const middle = s[m];
+  if (middle === undefined) return null;
+  if (s.length % 2) return middle;
+  const previous = s[m - 1];
+  if (previous === undefined) return null;
+  return (previous + middle) / 2;
 };
 
 function Tile({ label, value, note }: { label: string; value: ReactNode; note: string }) {
