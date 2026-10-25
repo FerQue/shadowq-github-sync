@@ -22,9 +22,21 @@ export function AppShell({ children }: { children: (persona: NonNullable<ReturnT
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-6">
             <span className="text-lg font-semibold">ShadowQ</span>
-            <nav className="flex gap-4 text-sm">
+            <nav className="flex flex-wrap gap-4 text-sm">
               <Link to="/simulator" className="text-muted-foreground hover:text-foreground [&.active]:font-medium [&.active]:text-foreground">
                 Simulator
+              </Link>
+              <Link to="/registry" className="text-muted-foreground hover:text-foreground [&.active]:font-medium [&.active]:text-foreground">
+                Registry
+              </Link>
+              <Link to="/discovery" className="text-muted-foreground hover:text-foreground [&.active]:font-medium [&.active]:text-foreground">
+                Discovery
+              </Link>
+              <Link to="/approvals" className="text-muted-foreground hover:text-foreground [&.active]:font-medium [&.active]:text-foreground">
+                Approvals
+              </Link>
+              <Link to="/audit" className="text-muted-foreground hover:text-foreground [&.active]:font-medium [&.active]:text-foreground">
+                Audit log
               </Link>
             </nav>
           </div>
