@@ -23,6 +23,9 @@ export function AppShell({ children }: { children: (persona: NonNullable<ReturnT
           <div className="flex items-center gap-6">
             <span className="text-lg font-semibold">ShadowQ</span>
             <nav className="flex flex-wrap gap-4 text-sm">
+              <Link to="/overview" className="text-muted-foreground hover:text-foreground [&.active]:font-medium [&.active]:text-foreground">
+                Overview
+              </Link>
               <Link to="/simulator" className="text-muted-foreground hover:text-foreground [&.active]:font-medium [&.active]:text-foreground">
                 Simulator
               </Link>
@@ -37,6 +40,9 @@ export function AppShell({ children }: { children: (persona: NonNullable<ReturnT
               </Link>
               <Link to="/audit" className="text-muted-foreground hover:text-foreground [&.active]:font-medium [&.active]:text-foreground">
                 Audit log
+              </Link>
+              <Link to="/rules" className="text-muted-foreground hover:text-foreground [&.active]:font-medium [&.active]:text-foreground">
+                Rules
               </Link>
             </nav>
           </div>

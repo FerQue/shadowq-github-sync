@@ -14,7 +14,9 @@ import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as DiscoveryRouteImport } from './routes/discovery'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as OverviewRouteImport } from './routes/overview'
 import { Route as RegistryRouteImport } from './routes/registry'
+import { Route as RulesRouteImport } from './routes/rules'
 import { Route as SimulatorRouteImport } from './routes/simulator'
 
 const IndexRoute = IndexRouteImport.update({
@@ -42,9 +44,19 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OverviewRoute = OverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegistryRoute = RegistryRouteImport.update({
   id: '/registry',
   path: '/registry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RulesRoute = RulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SimulatorRoute = SimulatorRouteImport.update({
@@ -59,7 +71,9 @@ export interface FileRoutesByFullPath {
   '/audit': typeof AuditRoute
   '/discovery': typeof DiscoveryRoute
   '/login': typeof LoginRoute
+  '/overview': typeof OverviewRoute
   '/registry': typeof RegistryRoute
+  '/rules': typeof RulesRoute
   '/simulator': typeof SimulatorRoute
 }
 export interface FileRoutesByTo {
@@ -68,7 +82,9 @@ export interface FileRoutesByTo {
   '/audit': typeof AuditRoute
   '/discovery': typeof DiscoveryRoute
   '/login': typeof LoginRoute
+  '/overview': typeof OverviewRoute
   '/registry': typeof RegistryRoute
+  '/rules': typeof RulesRoute
   '/simulator': typeof SimulatorRoute
 }
 export interface FileRoutesById {
@@ -78,7 +94,9 @@ export interface FileRoutesById {
   '/audit': typeof AuditRoute
   '/discovery': typeof DiscoveryRoute
   '/login': typeof LoginRoute
+  '/overview': typeof OverviewRoute
   '/registry': typeof RegistryRoute
+  '/rules': typeof RulesRoute
   '/simulator': typeof SimulatorRoute
 }
 export interface FileRouteTypes {
@@ -89,7 +107,9 @@ export interface FileRouteTypes {
     | '/audit'
     | '/discovery'
     | '/login'
+    | '/overview'
     | '/registry'
+    | '/rules'
     | '/simulator'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -98,7 +118,9 @@ export interface FileRouteTypes {
     | '/audit'
     | '/discovery'
     | '/login'
+    | '/overview'
     | '/registry'
+    | '/rules'
     | '/simulator'
   id:
     | '__root__'
@@ -107,7 +129,9 @@ export interface FileRouteTypes {
     | '/audit'
     | '/discovery'
     | '/login'
+    | '/overview'
     | '/registry'
+    | '/rules'
     | '/simulator'
   fileRoutesById: FileRoutesById
 }
@@ -117,7 +141,9 @@ export interface RootRouteChildren {
   AuditRoute: typeof AuditRoute
   DiscoveryRoute: typeof DiscoveryRoute
   LoginRoute: typeof LoginRoute
+  OverviewRoute: typeof OverviewRoute
   RegistryRoute: typeof RegistryRoute
+  RulesRoute: typeof RulesRoute
   SimulatorRoute: typeof SimulatorRoute
 }
 
@@ -158,11 +184,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/overview': {
+      id: '/overview'
+      path: '/overview'
+      fullPath: '/overview'
+      preLoaderRoute: typeof OverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/registry': {
       id: '/registry'
       path: '/registry'
       fullPath: '/registry'
       preLoaderRoute: typeof RegistryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rules': {
+      id: '/rules'
+      path: '/rules'
+      fullPath: '/rules'
+      preLoaderRoute: typeof RulesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/simulator': {
@@ -181,7 +221,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuditRoute: AuditRoute,
   DiscoveryRoute: DiscoveryRoute,
   LoginRoute: LoginRoute,
+  OverviewRoute: OverviewRoute,
   RegistryRoute: RegistryRoute,
+  RulesRoute: RulesRoute,
   SimulatorRoute: SimulatorRoute,
 }
 export const routeTree = rootRouteImport
