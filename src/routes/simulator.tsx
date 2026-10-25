@@ -42,7 +42,8 @@ function Simulator({ employeeName }: { employeeName: string }) {
         if (err) setError(err.message);
         else {
           setServices(data ?? []);
-          if (data?.length) setServiceId(data[0].id);
+          const first = data?.[0];
+          if (first) setServiceId(first.id);
         }
       });
   }, []);

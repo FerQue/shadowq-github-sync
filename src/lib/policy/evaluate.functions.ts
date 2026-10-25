@@ -77,8 +77,8 @@ export const evaluateUsageFn = createServerFn({ method: "POST" })
         (e): Exception => ({
           id: e.id,
           serviceId: e.service_id,
-          employeeId: e.employee_id ?? undefined,
-          department: e.department_id ?? undefined,
+          ...(e.employee_id ? { employeeId: e.employee_id } : {}),
+          ...(e.department_id ? { department: e.department_id } : {}),
           maxClass: e.max_class as DataClass,
           expiresAt: e.expires_at,
         }),
